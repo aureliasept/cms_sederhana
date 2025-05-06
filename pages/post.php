@@ -145,9 +145,7 @@ $result = mysqli_query($koneksi, $query);
                             <td><?php echo date('d/m/Y H:i', strtotime($post['created_at'])); ?></td>
                             <td class="actions">
                                 <a href="post_edit.php?id=<?php echo $post['id']; ?>" class="btn btn-edit">Edit</a>
-                                <a href="post.php?delete=<?php echo $post['id']; ?>" 
-                                   class="btn btn-delete" 
-                                   onclick="return confirm('Apakah Anda yakin ingin menghapus post ini?')">Hapus</a>
+                                <a href="post_delete.php?id=<?php echo $post['id']; ?>" class="btn btn-delete">Hapus</a>
                             </td>
                         </tr>
                     <?php endwhile; ?>
