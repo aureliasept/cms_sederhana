@@ -113,10 +113,16 @@ $result = mysqli_query($koneksi, $query);
             <a href="post_create.php" class="btn btn-primary">Tambah Post Baru</a>
         </div>
 
-        <?php if (isset($_GET['message']) && $_GET['message'] === 'deleted'): ?>
-            <div class="message message-success">
-                Post berhasil dihapus!
-            </div>
+        <?php if (isset($_GET['message'])): ?>
+            <?php if ($_GET['message'] === 'deleted'): ?>
+                <div class="message message-success">
+                    Post berhasil dihapus!
+                </div>
+            <?php elseif ($_GET['message'] === 'created'): ?>
+                <div class="message message-success">
+                    Post berhasil dibuat!
+                </div>
+            <?php endif; ?>
         <?php endif; ?>
 
         <table>
