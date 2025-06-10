@@ -1,0 +1,20 @@
+RewriteEngine On
+
+# Redirect all requests to public folder
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^(.*)$ public/$1 [L]
+
+# Prevent access to sensitive directories
+RewriteRule ^(app|core)/ - [F,L]
+
+# Prevent access to .htaccess file
+<Files .htaccess>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Prevent access to configuration files
+<FilesMatch "\.(env|config|ini|log)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch> 
