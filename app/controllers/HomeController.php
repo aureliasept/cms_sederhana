@@ -9,8 +9,6 @@ class HomeController extends Controller {
     
     /**
      * Display the home page
-     * 
-     * @return void
      */
     public function index() {
         $data = [
@@ -26,13 +24,13 @@ class HomeController extends Controller {
         
         $this->view('home/index', $data);
     }
-    
+
     /**
      * Display about page
-     * 
-     * @return void
      */
     public function about() {
+        echo "<h1 style='color:green;'>🔍 Masuk method about()</h1>";
+
         $data = [
             'title' => 'About Us',
             'content' => 'This is a simple MVC framework built for learning and development purposes.'
@@ -40,13 +38,13 @@ class HomeController extends Controller {
         
         $this->view('home/about', $data);
     }
-    
+
     /**
      * Display contact page
-     * 
-     * @return void
      */
     public function contact() {
+        echo "<h1 style='color:blue;'>📞 Masuk method contact()</h1>";
+
         $data = [
             'title' => 'Contact Us',
             'email' => 'contact@example.com',
@@ -55,5 +53,14 @@ class HomeController extends Controller {
         
         $this->view('home/contact', $data);
     }
+
+    /**
+     * Display login page
+     */
+    public function login() {
+        echo "<h1 style='color:purple;'>🔐 Masuk method login()</h1>";
+
+        $this->view('home/login');
+    }
 }
-?> 
+?>
