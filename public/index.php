@@ -1,25 +1,18 @@
 <?php
-/**
- * Simple MVC Framework - Entry Point
- * 
- * This file serves as the main entry point for all requests
- * and handles routing to the appropriate controller and action.
- */
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-// Define the application root path
 define('APP_ROOT', dirname(__DIR__));
 
-// Include the core framework files
-require_once APP_ROOT . '/core/App.php';
+// Autoload (kalau kamu punya composer, aktifkan ini)
+// require_once APP_ROOT . '/vendor/autoload.php';
 
-// Start the application
-try {
-    // Initialize the application
-    $app = new App();
-    
-} catch (Exception $e) {
-    // Handle errors
-    http_response_code(500);
-    echo "Error: " . $e->getMessage();
-}
-?> 
+// Include core files
+require_once APP_ROOT . '/core/App.php';
+require_once APP_ROOT . '/core/Controller.php';
+
+// Jalankan aplikasi
+echo '<pre>';
+print_r($_GET);
+echo '</pre>';
+$app = new App();

@@ -16,40 +16,48 @@ class App {
 
     public function __construct() {
         $url = $this->parseUrl();
-        
-        // Set controller
-        if (isset($url[0]) && !empty($url[0])) {
+    
+        echo "<pre style='color:orange'>DEBUG URL:\n";
+        print_r($url);
+        echo "</pre>";
+    
+        // Controller
+        if (isset($url[0])) {
             $controllerName = ucfirst($url[0]) . 'Controller';
-            $controllerFile = APP_ROOT . '/app/controllers/' . $controllerName . '.php';
-            
+            $controllerFile = __DIR__ . '/../app/controllers/' . $controllerName . '.php';
+    
             if (file_exists($controllerFile)) {
-                $this->controller = $controllerName;
+                require_once $controllerFile;
+                $this->controller = new $controllerName;
                 unset($url[0]);
             } else {
-                $this->controller = 'ErrorController';
+                echo "<h2 style='color:red;'>❌ Controller file not found: $controllerFile</h2>";
+                return;
             }
         }
-        
-        // Include and instantiate controller
-        require_once APP_ROOT . '/app/controllers/' . $this->controller . '.php';
-        $this->controller = new $this->controller;
-        
-        // Set method
-        if (isset($url[1]) && !empty($url[1])) {
-            if (method_exists($this->controller, $url[1])) {
-                $this->method = $url[1];
+    
+        // Method
+        if (isset($url[1])) {
+            $method = $url[1];
+            if (method_exists($this->controller, $method)) {
+                $this->method = $method;
                 unset($url[1]);
             } else {
-                $this->method = 'index';
+                echo "<h2 style='color:red;'>❌ Method not found: $method in " . get_class($this->controller) . "</h2>";
+                return;
             }
         }
-        
-        // Set parameters
+    
         $this->params = $url ? array_values($url) : [];
-        
-        // Call the controller method with parameters
+    
+        echo "<pre style='color:green'>";
+        echo "Controller: " . get_class($this->controller) . "\n";
+        echo "Method: " . $this->method . "\n";
+        echo "Params: "; print_r($this->params);
+        echo "</pre>";
+    
         call_user_func_array([$this->controller, $this->method], $this->params);
-    }
+    }    
     
     /**
      * Parse the URL into an array
@@ -64,6 +72,7 @@ class App {
         }
         return [];
     }
+    
     
     /**
      * Get current controller name
