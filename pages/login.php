@@ -12,35 +12,17 @@ $error = '';
 
 // Process login form
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = mysqli_real_escape_string($koneksi, $_POST['username']);
+    $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Validate input
-    if (empty($username) || empty($password)) {
-        $error = "Username dan password harus diisi!";
+    $query = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+    $result = $koneksi->query($query);
+
+    if ($result->num_rows > 0) {
+        $_SESSION['user_logged_in'] = true;
+        header('Location: ../index.php');
     } else {
-        // Check credentials in database
-        $query = "SELECT * FROM admin WHERE username = '$username'";
-        $result = mysqli_query($koneksi, $query);
-
-        if ($result && mysqli_num_rows($result) > 0) {
-            $admin = mysqli_fetch_assoc($result);
-            // Verify password
-            if (password_verify($password, $admin['password'])) {
-                // Set session variables
-                $_SESSION['admin_logged_in'] = true;
-                $_SESSION['admin_id'] = $admin['id'];
-                $_SESSION['admin_username'] = $admin['username'];
-
-                // Redirect to dashboard
-                header("Location: dashboard.php");
-                exit;
-            } else {
-                $error = "Password salah!";
-            }
-        } else {
-            $error = "Username tidak ditemukan!";
-        }
+        $error = "Username atau password salah.";
     }
 }
 ?>
@@ -99,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="error"><?php echo $error; ?></div>
         <?php endif; ?>
 
-        <form method="POST" action="">
+        <form method="POST" action="login.php">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>

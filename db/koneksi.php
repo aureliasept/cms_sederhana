@@ -1,14 +1,14 @@
 <?php
 $host = 'localhost';
-$user = 'root';
-$password = '';
-$database = 'cms_db';
+$user = 'root'; // username MySQL
+$pass = ''; // password MySQL (kosong jika belum ada)
+$dbname = 'cms_sederhana'; // nama database yang kamu buat di MySQL
 
-// Create connection
-$koneksi = mysqli_connect($host, $user, $password, $database);
+// Koneksi ke database
+$conn = new mysqli($host, $user, $pass, $dbname);
 
-// Check connection
-if (!$koneksi) {
-    die("Connection failed: " . mysqli_connect_error());
+// Cek koneksi
+if ($conn->connect_error) {
+    die("Koneksi gagal: " . $conn->connect_error);
 }
-?> 
+?>
